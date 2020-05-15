@@ -24,13 +24,16 @@ class CatalogController extends AbstractController
     }
 
     /**
+     * Récupère tous les livres
+     * 
      * @Route("/catalog", name="catalog_index")
      * @return Response
      */
     public function index(): Response
     {
+        $livres = $this->repo->findAll();
         return $this->render('catalog/index.html.twig', [
-            'controller_name' => 'CatalogController',
+            'livres' => $livres
         ]);
     }
 

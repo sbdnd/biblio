@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\LivreRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
 
@@ -49,6 +51,23 @@ class Livre
      * @ORM\JoinColumn(nullable=false)
      */
     private $editeur;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Auteur::class, inversedBy="livres", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $auteurs;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Exemplaire::class, mappedBy="livre", orphanRemoval=true)
+     */
+    private $exemplaires;
+
+    public function __construct()
+    {
+        $this->auteurs = new ArrayCollection();
+        $this->exemplaires = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -131,4 +150,64 @@ class Livre
 
         return $this;
     }
+
+    /**
+     * @return Collection|Auteur[]
+     */
+    public function getAuteurs(): Collection
+    {
+        return $this->auteurs;
+    }
+
+    public function addAuteur(Auteur $auteur): self
+    {
+        if (!$this->auteurs->contains($auteur)) {
+            $this->auteurs[] = $auteur;
+        }
+
+        return $this;
+    }
+
+    public function removeAuteur(Auteur $auteur): self
+    {
+        if ($this->auteurs->contains($auteur)) {
+            $this->auteurs->removeElement($auteur);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Exemplaire[]
+     */
+    public function getExemplaires(): Collection
+    {
+        return $this->exemplaires;
+    }
+
+    public function addExemplaire(Exemplaire $exemplaire): self
+    {
+        if (!$this->exemplaires->contains($exemplaire)) {
+            $this->exemplaires[] = $exemplaire;
+            $exemplaire->setLivre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExemplaire(Exemplaire $exemplaire): self
+    {
+        if ($this->exemplaires->contains($exemplaire)) {
+            $this->exemplaires->removeElement($exemplaire);
+            // set the owning side to null (unless already changed)
+            if ($exemplaire->getLivre() === $this) {
+                $exemplaire->setLivre(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+
 }

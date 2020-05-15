@@ -4,8 +4,14 @@
 
 {% block body %}
 
-
     <h1>Titre du livre</h1>
-    <p>"{{ livre.titre}}"</p>
+    <p>"{{ livre.titre }}"</p>
+    <h2>Nom de l'auteur</h2>
+    {% for auteur in livre.auteurs %}
+        <p>"{{ auteur.prenomAuteur }} {{ auteur.nomAuteur }}"</p>
+    {% endfor %}
+    
+    <h2>Résumé</h2>
+    <p>"{{ livre.resume }}"</p>
 
 {% endblock %}
