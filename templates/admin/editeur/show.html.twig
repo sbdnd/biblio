@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'éditeur' %}
+
+{% block body %}
+
+    <div class="container">
+
+        <div class=" bg-warning text-center text-white">
+            <h3>Caractéristiques</h3>
+        </div>
+
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ editeur.id }}</td>
+                </tr>
+                <tr>
+                    <th>NomEditeur</th>
+                    <td>{{ editeur.nomEditeur }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a class="btn btn-primary mb-2" href="{{ path('admin_editeur_edit', {'id': editeur.id}) }}">modifier</a>
+        <div>
+            <a class="btn btn-warning" href="{{ path('admin_editeur_index') }}">retour à la liste</a>
+        </div>
+
+        {{ include('admin/editeur/_delete_form.html.twig') }}
+
+    </div>
+
+{% endblock %}

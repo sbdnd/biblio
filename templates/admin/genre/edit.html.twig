@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'modifier le genre' %}
+
+{% block body %}
+
+    <div class="container">
+
+        <div class=" bg-warning text-center text-white">
+            <h3>Modifier le genre</h3>
+        </div>
+
+        {{ include('admin/genre/_form.html.twig', {'button_label': 'sauvegarder'}) }}
+
+        <a class="btn btn-warning" href="{{ path('admin_genre_index') }}">retour à la liste</a>
+
+        {{ include('admin/genre/_delete_form.html.twig') }}
+
+    </div>
+
+{% endblock %}

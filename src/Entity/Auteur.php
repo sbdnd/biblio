@@ -113,8 +113,8 @@ class Auteur
         return $this;
     }
 
-    // public function __toString()
-    // {
-    //     return $this->nomAuteur;
-    // }
+    public function __toString()
+    {
+        return $this->getPrenomAuteur() . ' ' . $this->getNomAuteur();
+    }
 }

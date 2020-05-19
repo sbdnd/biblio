@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('admin_editeur_delete', {'id': editeur.id}) }}" onsubmit="return confirm('Etes-vous sûr de voulir supprimer cet éditeur ?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ editeur.id) }}">
+    <button class="btn btn-danger mt-2">supprimer</button>
+</form>

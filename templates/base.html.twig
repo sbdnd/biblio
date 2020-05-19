@@ -5,7 +5,6 @@
         <title>{% block title %}{% endblock %}</title>
         {# Css Bootswatch #}
         <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/yeti/bootstrap.min.css" rel="stylesheet" integrity="sha384-bWm7zrSUE5E+21rA9qdH5frkMpXvqjQm/WJw4L5PYQLNHrywI5zs5saEjIcCdGu1" crossorigin="anonymous">
-        {# <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.0/flatly/bootstrap.min.css" rel="stylesheet" integrity="sha384-mhpbKVUOPCSocLzx2ElRISIORFRwr1ZbO9bAlowgM5kO7hnpRBe+brVj8NNPUiFs" crossorigin="anonymous"> #}
         {# Font-Awsome #}
         <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         {% block stylesheets %}{% endblock %}
@@ -23,7 +22,18 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="{{ path('catalog_index') }}">Catalogue</a>
                     </li>
-                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Gestion
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{ path('admin_livre_index') }}">Gérer les livres</a>
+                        <a class="dropdown-item" href="{{ path('admin_auteur_index') }}">Gérer les auteurs</a>
+                        <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ path('admin_editeur_index') }}">Gérer les éditeurs</a>
+                            <a class="dropdown-item" href="{{ path('admin_genre_index') }}">Gérer les genres</a>
+                        </div>
+                    </li>
                 </ul>
             </div>
 

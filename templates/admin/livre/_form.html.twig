@@ -1,0 +1,39 @@
+
+
+
+{{ form_start(form) }}
+<div class="row">
+    <div class="col-sm-6">
+        {{ form_row(form.titre)}}
+    </div>
+    <div class="col-sm-6">
+        {{ form_row(form.editeur)}}
+        <a href="{{ path('admin_editeur_new') }}" type="button" class="btn btn-outline-primary btn-sm mb-4">L'éditeur n'est pas encore dans la liste !!</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        {{ form_row(form.auteurs)}}
+        <a href="{{ path('admin_auteur_new') }}" type="button" class="btn btn-outline-primary btn-sm mb-4">L'auteur n'est pas encore dans la liste !!</a>
+    </div>
+    <div class="col-sm-6">
+        {{ form_row(form.resume)}}
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        {{ form_row(form.annee)}}
+    </div>
+    <div class="col-sm-6">
+        {{ form_row(form.isbn)}}
+    </div>
+</div>
+    <div class="row">
+        <div class="col-sm-6">
+            {{ form_widget(form) }}
+            <a href="{{ path('admin_genre_new') }}" type="button" class="btn btn-outline-primary btn-sm mb-4">Le genre n'est pas encore dans la liste !!</a>
+        </div>
+    </div>
+    
+    <button class="btn btn-primary mb-2">{{ button_label|default('sauvegarder') }}</button>
+{{ form_end(form) }}

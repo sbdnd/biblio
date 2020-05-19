@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Nouvel éditeur' %}
+
+{% block body %}
+
+    <div class="container">
+   
+        <div class=" bg-warning text-center text-white">
+            <h3>Enregistrer un nouvel éditeur</h3>
+        </div>
+   
+        {{ include('admin/editeur/_form.html.twig') }}
+
+        <a class="btn btn-warning" href="{{ path('admin_editeur_index') }}">retour à la liste</a>
+   
+   </div>
+
+{% endblock %}

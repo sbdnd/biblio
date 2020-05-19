@@ -1,17 +1,67 @@
 {% extends 'base.html.twig' %}
 
-{% block title  livre.titre %}
+{% block title livre.titre %}
 
 {% block body %}
 
-    <h1>Titre du livre</h1>
-    <p>"{{ livre.titre }}"</p>
-    <h2>Nom de l'auteur</h2>
-    {% for auteur in livre.auteurs %}
-        <p>"{{ auteur.prenomAuteur }} {{ auteur.nomAuteur }}"</p>
-    {% endfor %}
-    
-    <h2>Résumé</h2>
-    <p>"{{ livre.resume }}"</p>
+    <div class="container mt-4">
+        <div class="row mb-4">
+            <div class="col-sm-8">
+            </div>
+            <div class="col-sm-4">
+                <h1>{{ livre.titre }}</h1>
+                <h2>
+                    {% for auteur in livre.auteurs %}
+                        <p> de {{ auteur.prenomAuteur }} {{ auteur.nomAuteur }}</p>
+                    {% endfor %}
+                </h2>
+                <a href="#" class="btn btn-primary">Réserver</a>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-sm-8">
+                <h3>Caractéristiques détaillées</h3>
+                <table class="table table-hover">
+                    <tbody>
+                        <tr class="table-light">
+                            <th scope="row">Auteur</th>
+                            <td>
+                                {% for auteur in livre.auteurs %}
+                                    {{ auteur.prenomAuteur }} {{ auteur.nomAuteur }}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        <tr class="table-light">
+                            <th scope="row">Catégorie</th>
+                            <td>{{ livre.genre.libelle }}</td>
+                        </tr>
+                        <tr class="table-light">
+                            <th scope="row">Editeur</th>
+                            <td>{{ livre.editeur.nomEditeur }}</td>
+                        </tr>
+                        <tr class="table-light">
+                            <th scope="row">ISBN</th>
+                            <td>{{ livre.isbn }}</td>
+                        </tr>
+                        <tr class="table-light">
+                            <th scope="row">Parution</th>
+                            <td>{{ livre.annee }}</td>
+                        </tr>
+                    </tbody>
+                </table> 
+
+            </div>
+            <div class="col-sm-4">
+                <h3>Résumé</h3>
+                <p>{{ livre.resume | nl2br }}</p>
+            </div>
+        
+        </div>
+
+
+
+    </div>
+
 
 {% endblock %}

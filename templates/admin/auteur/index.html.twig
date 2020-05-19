@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'tous les auteurs' %}
+
+{% block body %}
+
+<div class="container">
+
+    <div class=" bg-warning text-center text-white">
+        <h3>Gérer les auteurs</h3>
+    </div>
+    <a class="btn btn-primary mb-2" href="{{ path('admin_auteur_new') }}">Enregistrer un nouvel auteur</a>
+
+        {# notification en cas de modification, suppression ou création #}
+        {% for notification in app.flashes('success') %}
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="alert alert-dismissible alert-success">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        {{ notification }}
+                    </div
+                </div>
+            </div>
+        {% endfor %}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>NomAuteur</th>
+                <th>PrenomAuteur</th>
+                <th>Nationalite</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for auteur in auteurs %}
+            <tr>
+                <td>{{ auteur.id }}</td>
+                <td>{{ auteur.nomAuteur }}</td>
+                <td>{{ auteur.prenomAuteur }}</td>
+                <td>{{ auteur.nationalite }}</td>
+                <td>
+                    <a class="btn btn-primary" href="{{ path('admin_auteur_show', {'id': auteur.id}) }}">voir</a>
+                    <a class="btn btn-warning" href="{{ path('admin_auteur_edit', {'id': auteur.id}) }}">modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">auncun auteur trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+</div>
+{% endblock %}

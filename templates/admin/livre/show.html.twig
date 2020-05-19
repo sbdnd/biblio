@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'livre' %}
+
+{% block body %}
+<div class="container">
+
+    <div class=" bg-warning text-center text-white">
+        <h3>Caractéristiques</h3>
+    </div>
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ livre.id }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ livre.titre }}</td>
+            </tr>
+            <tr>
+                <th>Résumé</th>
+                <td>{{ livre.resume }}</td>
+            </tr>
+            <tr>
+                <th>Année de parution</th>
+                <td>{{ livre.annee }}</td>
+            </tr>
+            <tr>
+                <th>Isbn</th>
+                <td>{{ livre.isbn }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary mb-2" href="{{ path('admin_livre_edit', {'id': livre.id}) }}">modifier</a>
+
+    <div>
+        <a class="btn btn-warning" href="{{ path('admin_livre_index') }}">retour à la liste</a>
+    </div>
+
+    {{ include('admin/livre/_delete_form.html.twig') }}
+</div>
+    
+{% endblock %}

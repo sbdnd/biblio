@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Nouveau livre' %}
+
+{% block body %}
+
+<div class="container">
+    
+    <div class=" bg-warning text-center text-white">
+        <h3>Enregistrer un nouveau livre</h3>
+    </div>
+    {{ include('admin/livre/_form.html.twig') }}
+
+    <a class="btn btn-warning" href="{{ path('admin_livre_index') }}">retour à la liste</a>
+
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Nouvel auteur' %}
+
+{% block body %}
+
+   <div class="container">
+   
+        <div class=" bg-warning text-center text-white">
+            <h3>Enregistrer un nouvel auteur</h3>
+        </div>
+   
+
+        {{ include('admin/auteur/_form.html.twig') }}
+
+        <a class="btn btn-warning" href="{{ path('admin_auteur_index') }}">retour à la liste</a>
+   
+   </div>
+
+{% endblock %}
