@@ -5,10 +5,11 @@ namespace App\Controller\Admin;
 use App\Entity\Editeur;
 use App\Form\EditeurType;
 use App\Repository\EditeurRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/admin/editeur")
@@ -18,10 +19,16 @@ class EditeurController extends AbstractController
     /**
      * @Route("/", name="admin_editeur_index", methods={"GET"})
      */
-    public function index(EditeurRepository $editeurRepository): Response
+    public function index(EditeurRepository $editeurRepository, PaginatorInterface $paginator, Request $request): Response
     {
+        $editeurs = $paginator->paginate(
+            $editeurRepository->findAll(),
+            $request->query->getInt('page', 1),
+            5
+        );
+
         return $this->render('admin/editeur/index.html.twig', [
-            'editeurs' => $editeurRepository->findAll(),
+            'editeurs' => $editeurs,
         ]);
     }
 

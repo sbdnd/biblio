@@ -5,10 +5,11 @@ namespace App\Controller\Admin;
 use App\Entity\Auteur;
 use App\Form\AuteurType;
 use App\Repository\AuteurRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/admin/auteur")
@@ -18,10 +19,16 @@ class AuteurController extends AbstractController
     /**
      * @Route("/", name="admin_auteur_index", methods={"GET"})
      */
-    public function index(AuteurRepository $auteurRepository): Response
+    public function index(AuteurRepository $auteurRepository, PaginatorInterface $paginator, Request $request): Response
     {
+        $auteurs = $paginator->paginate(
+            $auteurRepository->findAll(),
+            $request->query->getInt('page', 1),
+            5
+        );
+
         return $this->render('admin/auteur/index.html.twig', [
-            'auteurs' => $auteurRepository->findAll(),
+            'auteurs' => $auteurs,
         ]);
     }
 

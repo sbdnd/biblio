@@ -5,10 +5,11 @@ namespace App\Controller\Admin;
 use App\Entity\Genre;
 use App\Form\GenreType;
 use App\Repository\GenreRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/admin/genre")
@@ -18,10 +19,16 @@ class GenreController extends AbstractController
     /**
      * @Route("/", name="admin_genre_index", methods={"GET"})
      */
-    public function index(GenreRepository $genreRepository): Response
+    public function index(GenreRepository $genreRepository, PaginatorInterface $paginator, Request $request): Response
     {
+
+        $genres = $paginator->paginate(
+            $genreRepository->findAll(),
+            $request->query->getInt('page', 1),
+            5
+        );
         return $this->render('admin/genre/index.html.twig', [
-            'genres' => $genreRepository->findAll(),
+            'genres' => $genres,
         ]);
     }
 
