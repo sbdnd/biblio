@@ -46,7 +46,7 @@ class LivreController extends AbstractController
             $entityManager->persist($livre);
             $entityManager->flush();
             $this->addFlash('success', 'Livre enregistré avec succès');
-            return $this->redirectToRoute('admin/livre_index');
+            return $this->redirectToRoute('admin_livre_index');
         }
 
         return $this->render('admin/livre/new.html.twig', [

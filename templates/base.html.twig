@@ -22,38 +22,51 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="{{ path('catalog_index') }}">Catalogue</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Gestion
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ path('admin_livre_index') }}">Gérer les livres</a>
-                        <a class="dropdown-item" href="{{ path('admin_auteur_index') }}">Gérer les auteurs</a>
-                        <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ path('admin_editeur_index') }}">Gérer les éditeurs</a>
-                            <a class="dropdown-item" href="{{ path('admin_genre_index') }}">Gérer les genres</a>
-                        </div>
-                    </li>
+
+                    {# menu de gestion pour les admin #}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Gestion
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ path('admin_livre_index') }}">Gérer les livres</a>
+                            <a class="dropdown-item" href="{{ path('admin_auteur_index') }}">Gérer les auteurs</a>
+                            <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ path('admin_editeur_index') }}">Gérer les éditeurs</a>
+                                <a class="dropdown-item" href="{{ path('admin_genre_index') }}">Gérer les genres</a>
+                            </div>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
-
+            {# Menu connexion #}
             {% if app.user == false %}
                 <ul class="navbar-nav mr-4">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle {% if active_login is defined and active_login == 'active' %} active {% endif %}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-lock" aria-hidden="true"></i> Connexion</a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Adhérent</a>
-                            <a class="dropdown-item" href="#">Professionnel</a>
+                            <a class="dropdown-item" href="{{ path('app_login') }}">Adhérent</a>
+                            <a class="dropdown-item" href="{{ path('login_admin') }}">Professionnel</a>
                         <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">S'inscrire</a>
+                            <a class="dropdown-item" href="{{ path('app_register') }}">S'inscrire</a>
                         </div>
                     </li>
                 </ul>
             {% endif %}
-            {% if app.user  %}
-                <ul class="navbar-nav">
-                    <li class="nav-item ">
-                        <a href="#" class="nav-link"><i class="fa fa-unlock" aria-hidden="true"></i>Déconnexion</a>
+
+            {# Menu déconnexion #}
+            {% if app.user %}
+                <ul class="navbar-nav mr-4">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bonjour {{ app.user.username }}</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a class="dropdown-item" href="{{ path('logout') }}"><i class="fa fa-unlock" aria-hidden="true"></i> déconnexion</a> 
+                            {% elseif is_granted('ROLE_USER') %}
+                                <a class="dropdown-item" href="{{ path('app_logout') }}"><i class="fa fa-unlock" aria-hidden="true"></i> déconnexion</a>
+                            {% endif %}
+                        </div> 
                     </li>
                 </ul>
             {% endif %}

@@ -4,11 +4,14 @@ namespace App\Entity;
 
 use App\Repository\AdherentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=AdherentRepository::class)
+ * @UniqueEntity(fields={"username"}, message="There is already an account with this username")
  */
-class Adherent
+class Adherent implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -18,91 +21,141 @@ class Adherent
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=180, unique=true)
      */
-    private $nomAdherent;
+    private $username;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="json")
      */
-    private $prenomAdherent;
+    private $roles = [];
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string The hashed password
+     * @ORM\Column(type="string")
      */
-    private $emailAdherent;
+    private $password;
+
+    /**
+     * @ORM\Column(type="string", length=45)
+     */
+    private $prenom;
+
+    /**
+     * @ORM\Column(type="string", length=45)
+     */
+    private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $loginAdherent;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $mdpAdherent;
+    private $email;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getNomAdherent(): ?string
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
     {
-        return $this->nomAdherent;
+        return (string) $this->username;
     }
 
-    public function setNomAdherent(string $nomAdherent): self
+    public function setUsername(string $username): self
     {
-        $this->nomAdherent = $nomAdherent;
+        $this->username = $username;
 
         return $this;
     }
 
-    public function getPrenomAdherent(): ?string
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
     {
-        return $this->prenomAdherent;
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
     }
 
-    public function setPrenomAdherent(string $prenomAdherent): self
+    public function setRoles(array $roles): self
     {
-        $this->prenomAdherent = $prenomAdherent;
+        $this->roles = $roles;
 
         return $this;
     }
 
-    public function getEmailAdherent(): ?string
+    /**
+     * @see UserInterface
+     */
+    public function getPassword(): string
     {
-        return $this->emailAdherent;
+        return (string) $this->password;
     }
 
-    public function setEmailAdherent(?string $emailAdherent): self
+    public function setPassword(string $password): self
     {
-        $this->emailAdherent = $emailAdherent;
+        $this->password = $password;
 
         return $this;
     }
 
-    public function getLoginAdherent(): ?string
+    /**
+     * @see UserInterface
+     */
+    public function getSalt()
     {
-        return $this->loginAdherent;
+        // not needed when using the "bcrypt" algorithm in security.yaml
     }
 
-    public function setLoginAdherent(string $loginAdherent): self
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
     {
-        $this->loginAdherent = $loginAdherent;
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+    public function getPrenom(): ?string
+    {
+        return $this->prenom;
+    }
+
+    public function setPrenom(string $prenom): self
+    {
+        $this->prenom = $prenom;
 
         return $this;
     }
 
-    public function getMdpAdherent(): ?string
+    public function getNom(): ?string
     {
-        return $this->mdpAdherent;
+        return $this->nom;
     }
 
-    public function setMdpAdherent(string $mdpAdherent): self
+    public function setNom(string $nom): self
     {
-        $this->mdpAdherent = $mdpAdherent;
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
 
         return $this;
     }

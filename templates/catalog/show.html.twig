@@ -15,7 +15,12 @@
                         <p> de {{ auteur.prenomAuteur }} {{ auteur.nomAuteur }}</p>
                     {% endfor %}
                 </h2>
-                <a href="#" class="btn btn-primary">Réserver</a>
+                {# Renvoi vers formulaire de connexion si visiteur anonyme #}
+                {% if is_granted("ROLE_USER") %}
+                    <a href="#" class="btn btn-info btn-sm">Réserver</a>
+                {% else %}
+                    <a href="{{ path('app_login') }}" class="btn btn-info btn-sm">Réserver</a>
+                {% endif %}
             </div>
         </div>
         <hr>
