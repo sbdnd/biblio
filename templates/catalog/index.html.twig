@@ -1,6 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Catalogue{% endblock %}
+{% block title 'Catalogue' %}
+{% block stylesheets %}
+    
+    {# Style pour que le filtre suive le scroll #}
+    <style>
+        .search{
+            display: block;
+            position: sticky;
+            top: 20px;
+        }
+
+    </style>
+{% endblock %}
 
 {% block body %}
 
@@ -10,51 +22,69 @@
         <h3>Réservez votre livre dès maintenant</h3>
     </div>
 
-    {% for livre in livres %}
-    
-        <div class="row">
-            <div class="col-sm-4">
-                <div class="card mb-2">
-                    <img src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22318%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20318%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_158bd1d28ef%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A16pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_158bd1d28ef%22%3E%3Crect%20width%3D%22318%22%20height%3D%22180%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22129.359375%22%20y%3D%2297.35%22%3EImage%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="Card image">
-                </div>
-                <div class="text-center">
-                {% if is_granted("ROLE_USER") %}
-                    <a href="#" class="btn btn-info btn-sm">Réserver</a>
-                {% else %}
-                    <a href="{{ path('app_login') }}" class="btn btn-info btn-sm">Réserver</a>
-                {% endif %}
-                    <a href="{{ path('catalog_show', {id: livre.id, slug: livre.slug} ) }}" type="button" class="btn btn-warning btn-sm">Plus de détails</a>
-                </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="bg-warning text-center text-white mb-4">
+                <h4>Recherche avancée</h4>
             </div>
-            <div class="col-sm-8">
-                <table class="table table-hover">
-                    <tbody>
-                        <tr class="table-light">
-                            <th scope="row">Auteur</th>
-                            <td>
-                                {% for auteur in livre.auteurs %}
-                                    {{ auteur.prenomAuteur }} {{ auteur.nomAuteur }}
-                                {% endfor %}
-                            </td>
-                        </tr>
-                        <tr class="table-light">
-                            <th scope="row">Catégorie</th>
-                            <td>{{ livre.genre.libelle }}</td>
-                        </tr>
-                        <tr class="table-light">
-                            <th scope="row">Editeur</th>
-                            <td>{{ livre.editeur.nomEditeur }}</td>
-                        </tr>
-                        <tr class="table-light">
-                            <th scope="row">Parution</th>
-                            <td>{{ livre.annee }}</td>
-                        </tr>
-                    </tbody>
-                </table> 
-            </div>
+            {% include "catalog/_search.html.twig" with {form: form} only %}
         </div>
-        <hr>
-    {% endfor %}
+        <div class="col-sm-9">
+
+            {% for livre in livres %}
+                
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="card mb-2">
+                                {% if livre.imageName %}
+                                    <img style="height: auto; width: 100%; display: block;" src="{{ vich_uploader_asset(livre, 'imageFile') | imagine_filter('thumb') }}" alt="image livre">
+                                {% else %}
+                                    <img style="height: auto; width: 100%; display: block;" src="{{ '/images/livres/livre.jpg' | imagine_filter('thumb') }}" alt="image livre">
+                                {% endif %}
+                            </div>
+                            <div class="text-center">
+                            {% if is_granted("ROLE_USER") %}
+                                <a href="#" class="btn btn-info btn-sm">Réserver</a>
+                            {% else %}
+                                <a href="{{ path('app_login') }}" class="btn btn-info btn-sm">Réserver</a>
+                            {% endif %}
+                                <a href="{{ path('catalog_show', {id: livre.id, slug: livre.slug} ) }}" type="button" class="btn btn-warning btn-sm">Plus de détails</a>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <table class="table table-hover">
+                                <tbody>
+                                    <tr class="table-light">
+                                        <th scope="row">Titre</th>
+                                        <td class="text-primary">{{ livre.titre }}</td>
+                                    </tr>
+                                    <tr class="table-light">
+                                        <th scope="row">Auteur</th>
+                                        <td>
+                                            {% for auteur in livre.auteurs %}
+                                                {{ auteur.prenomAuteur }} {{ auteur.nomAuteur }}
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                    <tr class="table-light">
+                                        <th scope="row">Catégorie</th>
+                                        <td>{{ livre.genre.libelle }}</td>
+                                    </tr>
+                                    <tr class="table-light">
+                                        <th scope="row">Parution</th>
+                                        <td>{{ livre.annee }}</td>
+                                    </tr>
+                                </tbody>
+                            </table> 
+                        </div>
+                    </div>
+                    <hr>
+                {% endfor %}
+
+        </div>
+    </div>
+
+    
 
     {# rendu de la pagination #}
     <div class="pagination">

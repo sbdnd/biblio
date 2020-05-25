@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Livre;
+use App\Form\SearchType;
+use App\Search\SearchData;
 use App\Repository\LivreRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -10,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 
 class CatalogController extends AbstractController
 {
@@ -34,13 +37,21 @@ class CatalogController extends AbstractController
      */
     public function index(PaginatorInterface $paginator, Request $request): Response
     {
-        $livres = $paginator->paginate(
-            $this->repo->findAll(),
-            $request->query->getInt('page', 1),
-            3
-        );
+
+        $data = new SearchData();
+        $form = $this->createForm(SearchType::class, $data);
+        $form->handleRequest($request);
+        //dd($data);
+        
+            $livres = $paginator->paginate(
+                $this->repo->findSearch($data),
+                $request->query->getInt('page', 1),
+                4
+            );
+        
         return $this->render('catalog/index.html.twig', [
-            'livres' => $livres
+            'livres' => $livres,
+            'form' => $form->createView()
         ]);
     }
 

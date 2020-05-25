@@ -1,0 +1,12 @@
+{{ form_start(form, {attr: {class: 'search'}}) }}
+
+
+{{ form_row(form.keyword, { 'value': '' }) }}
+{{ form_row(form.auteurs, { 'value': '' }) }}
+{{ form_row(form.genre, { 'value': '' })  }}
+
+{{ form_widget(form) }}
+
+<button type="submit" class="btn btn-primary btn-sm w-100">Filtrer</button>
+
+{{ form_end(form) }}

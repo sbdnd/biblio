@@ -16,8 +16,7 @@ class HomeController extends AbstractController
      * @return Response
      */
     public function index(LivreRepository $repo): Response
-    {
-        
+    {        
         $livres = $repo->findLatest();
 
         return $this->render('home/index.html.twig', [

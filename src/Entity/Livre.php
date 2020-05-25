@@ -2,14 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\LivreRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
+use Symfony\Component\Validator\Constraints as Assert; 
+use Doctrine\ORM\Mapping as ORM;
+use App\Repository\LivreRepository;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\Common\Collections\ArrayCollection;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity(repositoryClass=LivreRepository::class)
+ * @Vich\Uploadable
  */
 class Livre
 {
@@ -62,6 +67,31 @@ class Livre
      * @ORM\OneToMany(targetEntity=Exemplaire::class, mappedBy="livre", orphanRemoval=true)
      */
     private $exemplaires;
+
+    /**
+     * Undocumented variable
+     * @Vich\UploadableField(mapping="livre_image", fileNameProperty="imageName")
+     * @Assert\Image(
+     *          mimeTypes="image/jpeg",
+     *          mimeTypesMessage="Format jpeg/jpg uniquement !!"
+     * )
+     * @var File|null
+     */
+    private $imageFile;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     *
+     * @var string|null
+     */
+    private $imageName;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * @var \DateTime|null
+     */
+    private $updatedAt;
+
 
     public function __construct()
     {
@@ -208,9 +238,63 @@ class Livre
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+    
+    /**
+     * @param null|string $imageName
+     * @return self
+     */
+    public function setImageName(?string $imageName): self
+    {
+        $this->imageName = $imageName;
+        return $this;
+    }
+    
+    /**
+     * @return File|null
+     */ 
+    public function getImageFile(): ?file
+    {
+        return $this->imageFile;
+    }
+    
+    /**
+     * @param File|null $imageFile  
+     * @return self
+     */ 
+    public function setImageFile(?File $imageFile): self
+    {
+        $this->imageFile = $imageFile;
+       
+        if ($this->imageFile instanceof UploadedFile) {
+            $this->updatedAt = new \DateTime('now');
+        }
+        return $this;
+    }
+
     public function __toString()
     {
         return $this->getTitre();
     }
 
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    
+    
 }

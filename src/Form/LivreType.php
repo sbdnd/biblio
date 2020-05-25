@@ -4,9 +4,10 @@ namespace App\Form;
 
 use App\Entity\Livre;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class LivreType extends AbstractType
 {
@@ -20,6 +21,9 @@ class LivreType extends AbstractType
             ->add('genre')
             ->add('editeur')
             ->add('auteurs')
+            ->add('imageFile', FileType::class, [
+                'required' => false
+            ])
         ;
     }
 
