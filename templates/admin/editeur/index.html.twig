@@ -6,6 +6,12 @@
 
     <div class="container">
 
+        <div class="row">
+            <div class="col-sm-6">
+            
+            </div>
+        </div>
+
         <div class=" bg-warning text-center text-white">
             <h3>Gérer les éditeurs</h3>
         </div>
@@ -28,17 +34,17 @@
                 <tr>
                     <th>Id</th>
                     <th>NomEditeur</th>
-                    <th>actions</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
             {% for editeur in editeurs %}
                 <tr>
                     <td>{{ editeur.id }}</td>
-                    <td>{{ editeur.nomEditeur }}</td>
+                    <td >{{ editeur.nomEditeur }}</td>
                     <td>
-                        <a class="btn btn-primary" href="{{ path('admin_editeur_show', {'id': editeur.id}) }}">voir</a>
-                        <a class="btn btn-warning" href="{{ path('admin_editeur_edit', {'id': editeur.id}) }}">modifier</a>
+                        <a class="btn btn-warning" href="{{ path('admin_editeur_edit', {'id': editeur.id}) }}" >modifier</a>
+                        {{ include('admin/editeur/_delete_form.html.twig') }}
                     </td>
                 </tr>
             {% else %}

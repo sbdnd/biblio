@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ExemplaireRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -32,6 +34,16 @@ class Exemplaire
      * @ORM\JoinColumn(nullable=false)
      */
     private $livre;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Emprunter::class, mappedBy="exemplaire", orphanRemoval=true)
+     */
+    private $emprunts;
+
+    public function __construct()
+    {
+        $this->emprunts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -72,5 +84,41 @@ class Exemplaire
         $this->livre = $livre;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Emprunter[]
+     */
+    public function getEmprunts(): Collection
+    {
+        return $this->emprunts;
+    }
+
+    public function addEmprunt(Emprunter $emprunt): self
+    {
+        if (!$this->emprunts->contains($emprunt)) {
+            $this->emprunts[] = $emprunt;
+            $emprunt->setExemplaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEmprunt(Emprunter $emprunt): self
+    {
+        if ($this->emprunts->contains($emprunt)) {
+            $this->emprunts->removeElement($emprunt);
+            // set the owning side to null (unless already changed)
+            if ($emprunt->getExemplaire() === $this) {
+                $emprunt->setExemplaire(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->getCodeExemplaire();
     }
 }

@@ -4,15 +4,21 @@ namespace App\Controller;
 
 use App\Entity\Livre;
 use App\Form\SearchType;
+use App\Entity\Emprunter;
 use App\Search\SearchData;
+use Doctrine\DBAL\DBALException;
+use PhpParser\Node\Stmt\TryCatch;
 use App\Repository\LivreRepository;
+use App\Repository\EmprunterRepository;
+use App\Repository\ExemplaireRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
 
 class CatalogController extends AbstractController
 {
@@ -31,7 +37,7 @@ class CatalogController extends AbstractController
 
     /**
      * Récupère tous les livres
-     * 
+     * Filtre les livres selon les critères de rechercher avancée (titre, auteur, catégorie)
      * @Route("/catalog", name="catalog_index")
      * @return Response
      */
@@ -48,10 +54,11 @@ class CatalogController extends AbstractController
                 $request->query->getInt('page', 1),
                 4
             );
-        
+            
         return $this->render('catalog/index.html.twig', [
             'livres' => $livres,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'active_menu' => 'activer'
         ]);
     }
 
@@ -78,4 +85,5 @@ class CatalogController extends AbstractController
             'livre' => $livre
         ]);
     }
+
 }

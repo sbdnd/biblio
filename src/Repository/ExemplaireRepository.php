@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Livre;
 use App\Entity\Exemplaire;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Exemplaire|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +18,35 @@ class ExemplaireRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Exemplaire::class);
+    }
+
+    public function nbExemplaire($id)
+    {
+        return $this->createQueryBuilder('e')
+            ->select('COUNT(e)')
+            ->andWhere('e.livre = :livreId')
+            ->setParameter('livreId', $id)
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
+
+    /**
+     * Récupérer un exemplaire en fonction de l'id d'un livre
+     *
+     * @param number $id
+     * @return Exemplaire[]
+     */
+    public function findExemplaireByLivreId($id): array
+    {
+        return $this->createQueryBuilder('e')
+            ->select('e', 'l' )
+            ->join('e.livre','l')
+            ->andWhere('l.id = :livreId')
+            ->setParameter('livreId', $id)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
     // /**

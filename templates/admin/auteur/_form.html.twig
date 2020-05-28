@@ -1,19 +1,13 @@
 {{ form_start(form) }}
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             {{ form_row(form.prenomAuteur)}}
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             {{ form_row(form.nomAuteur)}}
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             {{ form_row(form.nationalite)}}
-        </div>
-        <div class="col-sm-6">
-            {{ form_row(form.livres)}}
-            {# <a href="{{ path('admin_livre_new') }}" type="button" class="btn btn-outline-primary btn-sm mb-4">Le livre n'est pas encore dans la liste !!</a> #}
         </div>
     </div>
     {{ form_widget(form) }}

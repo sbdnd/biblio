@@ -27,7 +27,7 @@ class SearchType extends AbstractType
                 'label' => false,
                 'required' => false,
                 'class' => Auteur::class,
-                'placeholder' => 'Recherchez un auteur'
+                'placeholder' => 'Sélectionnez un auteur'
                 // 'expanded' => true,
                 //'multiple' => true
             ])

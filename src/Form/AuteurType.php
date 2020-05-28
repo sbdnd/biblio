@@ -15,7 +15,7 @@ class AuteurType extends AbstractType
             ->add('nomAuteur')
             ->add('prenomAuteur')
             ->add('nationalite')
-            ->add('livres')
+            // ->add('livres')
         ;
     }
 

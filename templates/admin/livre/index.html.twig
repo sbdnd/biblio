@@ -29,7 +29,7 @@
                 <th>Titre</th>
                 <th>Auteur</th>
                 <th>Parution</th>
-                <th>Actions</th>
+                <th colspan="2" class="text-center">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -46,6 +46,9 @@
                 <td>
                     <a class="btn btn-primary" href="{{ path('admin_livre_show', {'id': livre.id}) }}">voir</a> 
                     <a class="btn btn-warning" href="{{ path('admin_livre_edit', {'id': livre.id}) }}">modifier</a> 
+                </td>
+                <td>
+                    {{ include('admin/livre/_delete_form.html.twig') }} 
                 </td>
             </tr>
         {% else %}

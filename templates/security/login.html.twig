@@ -34,7 +34,7 @@
                         <button type="submit" class="btn btn-primary">
                             <i class="fa fa-sign-in" aria-hidden="true"></i> Connectez-vous
                         </button>
-                            <a href="{{ path('app_register') }}" class="btn btn-warning">S'inscrire</a>
+                            
                     </fieldset>
 
                     {#
@@ -49,18 +49,15 @@
                     #}
                 </form>
             </div>
+            <div class="col-sm-6 align-self-end ">
+                <div class="alert alert-primary" role="alert">
+                    <h4 class="alert-heading text-center">Vous n'êtes toujours pas inscrit</h4>
+                    <hr>
+                    <p class="mb-4 lead">Devenez adhérent et profitez de tout notre catalogue.</p>
+                    <a href="{{ path('app_register') }}" class="btn btn-warning">S'inscrire</a>
+                </div>
+                
+            </div>
         </div>
     </div>
 {% endblock %}
-
-            {# <label for="inputUsername">Username</label>
-            <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" required autofocus>
-            <label for="inputPassword">Password</label>
-            <input type="password" name="password" id="inputPassword" class="form-control" required>
-
-            <input type="hidden" name="_csrf_token"
-                value="{{ csrf_token('authenticate') }}"
-            >
-            <button class="btn btn-lg btn-primary" type="submit">
-                Sign in
-            </button> #}

@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Date de retour' %}
+
+{% block body %}
+    <div class="container">
+        <div class=" bg-warning text-center text-white">
+            <h3>Entrez la date de retour</h3>
+        </div>
+        {{ include('admin/emprunter/_form.html.twig', {'button_label': 'sauvegarder'}) }}
+    </div>
+{% endblock %}

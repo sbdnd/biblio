@@ -21,6 +21,7 @@ class AdminController extends AbstractController
         return $this->render('security/login_admin.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,
+            'active_login' => 'actived'
         ]);
     }
 

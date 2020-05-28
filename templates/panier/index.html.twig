@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'votre panier' %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <h1>Votre panier</h1>
+
+            {% if livres | length > 0 %}
+                <table class="table mt-4">
+                    <thead>
+                        <tr>
+                            <th>Titre</th>
+                            {# <th>Auteur</th> #}
+                            <th colspan="2" class="text-center">Action</th>
+                        </tr>
+                        <tbody>
+                        {% for livre in livres %}
+                            <tr>
+                                <td><a href="{{ path('catalog_show', {id: livre.id, slug: livre.slug} ) }}">{{ livre.titre }}</a></td>
+                                {# <td>
+                                    {% for auteur in livre.auteurs %}
+                                        {{ auteur.prenomAuteur }} {{ auteur.nomAuteur }}
+                                    {% endfor %}
+                                </td> #}
+                                <td><a href="{{ path('emprunter_reserve', {id: livre.id}) }}" class="btn btn-primary btn-sm">réserver</a></td>
+                                <td><a href="{{ path('panier_remove', {id: livre.id}) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </thead>
+                </table>
+            {% else %}
+                <p>Il est vide !</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+    
+
+{% endblock %}

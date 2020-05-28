@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Les emprunts' %}
+
+{% block body %}
+    <div class="container">
+        <div class=" bg-warning text-center text-white">
+            <h3>Gérer les retours</h3>
+        </div>
+
+        {# notification en cas de modification, suppression ou création #}
+        {% for notification in app.flashes('success') %}
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="alert alert-dismissible alert-success">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        {{ notification }}
+                    </div
+                </div>
+            </div>
+        {% endfor %}
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id exemplaire</th>
+                    <th>Code exemplaire</th>
+                    <th>Adhérent</th>
+                    <th>Date de pret</th>
+                    <th>Date de retour prévue</th>
+                    <th>Date de retour</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for emprunter in emprunters %}
+                <tr>
+                    <td>{{ emprunter.exemplaire.id }}</td>
+                    <td>{{ emprunter.exemplaire }}</td>
+                    <td>{{ emprunter.adherent }}</td>
+                    <td>{{ emprunter.datePret }}</td>
+                    <td>{{ emprunter.dateRetourPrevue ? emprunter.dateRetourPrevue|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ emprunter.dateRetourReelle ? emprunter.dateRetourReelle|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>
+                        <a class="btn btn-primary" href="{{ path('admin_emprunter_edit', {exemplaire: emprunter.exemplaire.id, adherent: emprunter.adherent.id, date: emprunter.datePret}) }}">Entrez la date de retour</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">Aucun emprunt actuellement</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {# rendu de la pagination #}
+        <div class="pagination">
+            {{ knp_pagination_render(emprunters) }}
+        </div>
+    </div>
+{% endblock %}
