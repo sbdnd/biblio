@@ -1,16 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% block title 'Catalogue' %}
-{% block stylesheets %}
-    {# Style pour que le filtre suive le scroll #}
-    <style>
-        .search{
-            display: block;
-            position: sticky;
-            top: 20px;
-        }
-    </style>
-{% endblock %}
 
 {% block body %}
 
@@ -41,7 +31,7 @@
         {% endfor %}
     </div>
 
-    <div class="bg-info text-center text-white mb-4">
+    <div class="bg-warning text-center text-white mb-4">
         <h3>Réservez votre livre dès maintenant</h3>
     </div>
     
@@ -70,7 +60,7 @@
                             {% if is_granted("ROLE_USER") %}
                                 <a href="{{ path('panier_add', {id: livre.id}) }}" class="btn btn-info btn-sm">Ajouter au panier <i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
                             {% else %}
-                                <a href="{{ path('app_login') }}" class="btn btn-info btn-sm">Ajouter au panier</a>
+                                <a href="{{ path('app_login') }}" class="btn btn-dark btn-sm">Ajouter au panier</a>
                             {% endif %}
                                 <a href="{{ path('catalog_show', {id: livre.id, slug: livre.slug} ) }}" type="button" class="btn btn-warning btn-sm">Plus de détails</a>
                             </div>

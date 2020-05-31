@@ -1,9 +1,244 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}{% endblock %}</title>
+        {# Google fonts #}
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+        {# Css Bootswatch #}
+        <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/yeti/bootstrap.min.css" rel="stylesheet" integrity="sha384-bWm7zrSUE5E+21rA9qdH5frkMpXvqjQm/WJw4L5PYQLNHrywI5zs5saEjIcCdGu1" crossorigin="anonymous">
+        {# Font-Awsome #}
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <link href="assets/css/style.css" rel="stylesheet" />
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+    
+    {% block body %}
 
-{% block title 'Accueil' %}
+        {# navbar homepage #}
+        <nav class="navbar navbar-expand-lg navbar-dark navbar-dark fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand" href="{{path('home')}}">e-BookShop <span class="fa-stack fa">
+                    <i class="fa fa-circle fa-stack-2x text-warning"></i><i class="fa fa-book fa-stack-1x fa-inverse"></i></span>
+                </a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">Menu<i class="fa fa-bars ml-1"></i></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav text-uppercase mr-auto">
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#services">Services</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#portfolio">Nouveautés</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#actu">Actu</a></li>
+                    </ul>
 
-{% block body %}
-    <div class="container">
+                    <ul class="navbar-nav text-uppercase ml-auto">
+                        <li class="nav-item"><a class="nav-link {% if active_menu is defined and active_menu == 'activer' %}active{% endif %}" href="{{ path('catalog_index') }}">Catalogue</a></li>
+                    {% if not is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item"><a class="nav-link" href="{{ path('contact_index') }}">Contact</a></li>
+                    {% endif %}
+                    {% if not is_granted('ROLE_USER') %}
+                        <li class="nav-item"><a class="nav-link" href="{{ path('app_login') }}">Adhérent</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ path('login_admin') }}">Professionnel</a></li>
+                    {% endif %}
+
+                    {% if app.user %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li class="nav-item"><a class="nav-link" href="{{ path('gestion_admin')}}">Gestion e-bookshop</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ path('logout') }}">déconnexion</a></li>
+                        {% elseif not is_granted('ROLE_ADMIN') %}
+                            <li class="nav-item"><a class="nav-link" href="{{ path('panier_index') }}">votre panier</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ path('app_logout') }}">déconnexion</a></li>
+                        {% endif %}          
+                    {% endif %}
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        {# <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand" href="{{path('home')}}">e-BookShop <span class="fa-stack fa">
+                    <i class="fa fa-circle fa-stack-2x text-warning"></i><i class="fa fa-book fa-stack-1x fa-inverse"></i></span>
+                </a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">Menu<i class="fa fa-bars ml-1"></i></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav text-uppercase mr-auto">
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#services">Services</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#portfolio">Nouveautés</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#actu">Actu</a></li>
+                    </ul>
+
+                    <ul class="navbar-nav text-uppercase ml-auto">
+                        <li class="nav-item"><a class="nav-link {% if active_menu is defined and active_menu == 'activer' %}active{% endif %}" href="{{ path('catalog_index') }}">Catalogue</a></li>
+                    {% if not is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ path('contact_index') }}">Contact</a></li>
+                    {% endif %}
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ path('app_login') }}">Adhérent</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ path('login_admin') }}">Professionnel</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav> #}
+
+        {# Header #}
+        <header class="masthead">
+            <div class="container">
+                <div class="masthead-subheading">Bienvenue sur e-BookShop !</div>
+                <div class="masthead-heading text-uppercase">Ivre de nos livres</div>
+                <a class="btn btn-dark btn-xl text-uppercase js-scroll-trigger" href="{{ path('catalog_index') }}">Accéder au catalogue</a>
+            </div>
+        </header>
+
+        {# Section services #}
+        <section class="page-section" id="services">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase">Nos services</h2>
+                    <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+                </div>
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <span class="fa-stack fa-4x"><i class="fa fa-circle fa-stack-2x text-warning"></i><i class="fa fa-shopping-cart fa-stack-1x fa-inverse"></i></span>
+                        <h4 class="my-3">E-Réservation</h4>
+                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="fa-stack fa-4x"><i class="fa fa-circle fa-stack-2x text-warning"></i><i class="fa fa-laptop fa-stack-1x fa-inverse"></i></span>
+                        <h4 class="my-3">Espace adhérent</h4>
+                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="fa-stack fa-4x"><i class="fa fa-circle fa-stack-2x text-warning"></i><i class="fa fa-info fa-stack-1x fa-inverse"></i></span>
+                        <h4 class="my-3">Actualité</h4>
+                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {# dernier livres #}
+        <section class="page-section bg-light" id="portfolio">
+
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase">Nos derniers livres</h2>
+                </div>
+                <div class="row">
+
+                    {% for livre in livres  %}
+                        <div class="col-lg-4 col-sm-6 mb-4">
+                            <div class="portfolio-item">
+                                <a class="portfolio-link" data-toggle="modal" href="#portfolioModal{{ loop.index}}"
+                                    ><div class="portfolio-hover">
+                                        <div class="portfolio-hover-content"><i class="fa fa-plus fa-3x"></i></div>
+                                    </div>
+                                    {% if livre.imageName %}
+                                        <img style="height: auto; width: 100%; display: block;" src="{{ vich_uploader_asset(livre, 'imageFile') | imagine_filter('thumb') }}" alt="image livre">
+                                    {% else %}
+                                        <img style="height: auto; width: 100%; display: block;" src="{{ '/images/livres/livre.jpg' | imagine_filter('thumb') }}" alt="image livre">
+                                    {% endif %}
+                                </a>
+                                <div class="portfolio-caption">
+                                    <div class="portfolio-caption-heading">{{ livre.titre }}</div>
+                                    <div class="portfolio-caption-subheading text-muted">
+                                        {% for auteur in livre.auteurs %}
+                                            {{ auteur}}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {# modal #}
+                        <div class="portfolio-modal modal fade" id="portfolioModal{{ loop.index}}" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="container">
+                                        <div class="row justify-content-center">
+                                            <div class="col-lg-8">
+                                                <div class="modal-body">
+                                                    <!-- Project Details Go Here-->
+                                                    <h2 class="text-uppercase">{{ livre.titre}}</h2>
+                                                    <p class="item-intro text-muted">
+                                                    {% for auteur in livre.auteurs %}
+                                                        {{ auteur}}
+                                                    {% endfor %}
+                                                    </p>
+                                                    <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/01-full.jpg" alt="" />
+                                                    <p>{{ livre.resume }}</p>
+                                                    <ul class="list-inline">
+                                                        <li>Parution: {{ livre.annee}}</li>
+                                                        <li>Editeur: {{ livre.editeur }}</li>
+                                                        <li>Categorie: {{ livre.genre }}</li>
+                                                    </ul>
+                                                    <button class="btn btn-primary" data-dismiss="modal" type="button"><i class="fa fa-times mr-1"></i>Fermer</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}    
+                    
+                </div>
+            </div>
+        </section>
+
+        {# Actualités #}
+        <section class="page-section" id="actu">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase">Notre actualité</h2>
+                    <h3 class="section-subheading text-muted">Notre actualité évolue régulièrement -Stay tunned !</h3>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="actu">
+                            <a href="#formation"><img class="mx-auto rounded-circle" src="assets/img/1.jpg" alt="" /></a>
+                            <h4>Formation</h4>
+                            <p class="text-muted">La classe de première vous apprend à découvrir les différents genres et registres littéraires. Grâce aux fiches de cours, la petite rédactrice vous aide à mieux comprendre les notions à apprendre. Découvrons ensemble une fiche synthétique sur le théâtre en littérature.</p>
+                            {# <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fa fa-twitter"></i></a><a class="btn btn-dark btn-social mx-2" href="#!"><i class="fa fa-facebook-f"></i></a> #}
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="actu">
+                            <a href="#rencontre"><img class="mx-auto rounded-circle" src="assets/img/2.jpg" alt="" /></a>
+                            <h4>Rencontre</h4>
+                            <p class="text-muted">Un témoignage touchant et plein d’espoir pour toutes les victimes du cancer du sein. Lorsque j’ai commencé le livre de Candice Blanco, c’était sous l’œil d’une ancienne formatrice en culture générale….</p>
+                            {# <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fa fa-twitter"></i></a><a class="btn btn-dark btn-social mx-2" href="#"><i class="fa fa-facebook-f"></i></a> #}
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="actu">
+                            <a href="#culture"><img class="mx-auto rounded-circle" src="assets/img/3.jpg" alt="" /></a>
+                            <h4>Culture</h4>
+                            <p class="text-muted">Rejoignez-nous pour améliorer votre culture littéraire (actualités littéraires, numériques et économiques...)</p>
+                            {# <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fa fa-twitter"></i></a><a class="btn btn-dark btn-social mx-2" href="#!"><i class="fa fa-facebook-f"></i></a> #}
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+        </section>
+
+        <!-- Footer-->
+        <footer class="footer py-4 bg-light">
+            <div class="container ">
+                <div class="row align-items-center">
+                    <div class="col-lg-4 text-lg-left">Copyright 2020 © e-bookshop </div>
+                    <div class="col-lg-4 my-3 my-lg-0">
+                        <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fa fa-twitter"></i></a><a class="btn btn-dark btn-social mx-2" href="#!"><i class="fa fa-facebook-f"></i></a><a class="btn btn-dark btn-social mx-2" href="#!"><i class="fa fa-linkedin"></i></a>
+                    </div>
+                    <div class="col-lg-4 text-lg-right"><a class="mr-3" href="#!">Privacy Policy</a><a href="#!">Terms of Use</a></div>
+                </div>
+            </div>
+        </footer>
+
+
+{# ancienne version #}
+    {# <div class="container">
         
         <div class="form-row mb-4">
             <div class="col-sm-9">
@@ -35,6 +270,53 @@
                 </div>
             {% endfor %}
         </div>
+    </div> #}
 
-    </div>
-{% endblock %}
+    {% for livre in livres %}
+            
+        {# <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="close-modal" data-dismiss="modal"><img src="assets/img/close-icon.svg" alt="Close modal" /></div>
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="modal-body">
+                                    <!-- Project Details Go Here-->
+                                    <h2 class="text-uppercase">{{ livre.titre}}</h2>
+                                    <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                                    <img class="img-fluid d-block mx-auto" src="assets/img/portfolio/01-full.jpg" alt="" />
+                                    <p>{{ livre.resume }}</p>
+                                    <ul class="list-inline">
+                                        <li>Date: {{ livre.annee }}</li>
+                                        <li>Client: Threads</li>
+                                        <li>Category: Illustration</li>
+                                    </ul>
+                                    <button class="btn btn-primary" data-dismiss="modal" type="button"><i class="fa fa-times mr-1"></i>Close Project</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> #}
+
+        {% endfor %}
+
+    {% endblock %}
+
+{# Js et Jquery Bootstrap #}
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+{# front js #}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+        {# <script src="assets/mail/jqBootstrapValidation.js"></script> #}
+        {# <script src="assets/mail/contact_me.js"></script> #}
+        <script src="assets/js/scripts.js"></script>
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>
+

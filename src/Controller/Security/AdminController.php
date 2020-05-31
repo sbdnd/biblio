@@ -25,4 +25,14 @@ class AdminController extends AbstractController
         ]);
     }
 
+     /**
+     * 
+     *@Route("/admin/gestion", name="gestion_admin")
+     * 
+     */
+    public function adminGestion()
+    {
+        return $this->render('admin/gestion/index.html.twig');
+    }
+
 }

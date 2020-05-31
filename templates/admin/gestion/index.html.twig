@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Gestion du catalogue' %}
+
+{% block body %}
+        
+    <section class="page-section" id="gestion">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-heading text-uppercase mb-4">Gestion du catalogue</h2>
+                <h3 class="section-subheading text-muted mb-4">Choisissez votre action.</h3>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <a href="{{ path('admin_livre_index') }}">
+                        <span class="fa-stack fa-4x"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-book fa-stack-1x fa-inverse"></i></span>
+                    </a>
+                    <h4 class="my-3">Gérer les livres</h4>
+                    <p class="text-muted">Ajouter - modifier - supprimer des livres du catalogue.</p>
+                </div>
+                <div class="col-md-4">
+                    <a href="{{ path('admin_auteur_index') }}">
+                        <span class="fa-stack fa-4x"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-users fa-stack-1x fa-inverse"></i></span>
+                    </a> 
+                    <h4 class="my-3">Gérer les auteurs</h4>
+                    <p class="text-muted">Ajouter - modifier - supprimer des auteurs du catalogue.</p>
+                </div>
+                <div class="col-md-4">
+                    <a href="{{ path('admin_editeur_index') }}">
+                        <span class="fa-stack fa-4x"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-address-book fa-stack-1x fa-inverse"></i></span>
+                    </a>
+                    <h4 class="my-3">Gérer les éditeurs</h4>
+                    <p class="text-muted">Ajouter - modifier - supprimer des éditeurs du catalogue.</p>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-4">
+                     
+                        <span class="fa-stack fa-4x"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-book fa-stack-1x fa-inverse"></i></span>
+                 
+                    <h4 class="my-3">Gérer les exemplaires</h4>
+                    <p class="text-muted">Ajouter - modifier - supprimer des exemplaires de livres du catalogue.</p>
+                </div>
+                <div class="col-md-4">
+                    <span class="fa-stack fa-4x"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-thumbs-up fa-stack-1x fa-inverse"></i></span>
+                    <h4 class="my-3">Gérer les disponibilités</h4>
+                    <p class="text-muted">Indiquer si un exemplaire est disponible ou non à la réservation.</p>
+                </div>
+                <div class="col-md-4">
+                    <a href="{{ path('admin_genre_index') }}">
+                        <span class="fa-stack fa-4x"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-tags fa-stack-1x fa-inverse"></i></span>
+                    </a>
+                    <h4 class="my-3">Gérer les genres</h4>
+                    <p class="text-muted">Ajouter - modifier - supprimer les genres de livres du catalogue.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

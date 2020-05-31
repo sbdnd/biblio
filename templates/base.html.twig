@@ -3,34 +3,45 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}{% endblock %}</title>
+        {# google fonts #}
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
         {# Css Bootswatch #}
         <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/yeti/bootstrap.min.css" rel="stylesheet" integrity="sha384-bWm7zrSUE5E+21rA9qdH5frkMpXvqjQm/WJw4L5PYQLNHrywI5zs5saEjIcCdGu1" crossorigin="anonymous">
         {# Font-Awsome #}
         <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <link href="assets/css/style.css" rel="stylesheet" />
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        {# NavBar Bootstrap #}
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
-            <a class="navbar-brand" href="{{path('home')}}">Biblio</a>
+    
+{# NavBar Bootstrap #}
+
+        {# <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+            <a class="navbar-brand" href="{{path('home')}}">e-BookShop</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
+
                     <li class="nav-item">
                         <a class="nav-link {% if active_menu is defined and active_menu == 'activer' %}active{% endif %}" href="{{ path('catalog_index') }}">Catalogue</a>
-                    </li>
-                    {# inactif pour les admin #}
-                {% if not is_granted('ROLE_ADMIN') %}
+                    </li> #}
+
+{# inactif pour les admin #}
+
+                {# {% if not is_granted('ROLE_ADMIN') %}
                     <li class="nav-item">
                         <a class="nav-link {% if active_menu is defined and active_menu == 'active' %}active{% endif %}" href="{{ path('contact_index') }}">Nous contacter</a>
                     </li>
-                {% endif %}
+                {% endif %} #}
 
-                    {# menu de gestion pour les admin #}
-                {% if is_granted('ROLE_ADMIN') %}
+{# menu de gestion pour les admin #}
+
+                {# {% if is_granted('ROLE_ADMIN') %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Gestion
@@ -47,9 +58,11 @@
                 {% endif %}
                     
                 </ul>
-            </div>
-            {# Menu connexion #}
-            {% if app.user == false %}
+            </div> #}
+
+{# Menu connexion #}
+
+            {# {% if app.user == false %}
                 <ul class="navbar-nav mr-4">
                     <li class="nav-item dropdown ">
                         <a class="nav-link dropdown-toggle {% if active_login is defined and active_login == 'actived' %} active {% endif %}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-lock" aria-hidden="true"></i> Connexion</a>
@@ -61,10 +74,11 @@
                         </div>
                     </li>
                 </ul>
-            {% endif %}
+            {% endif %} #}
 
-            {# Menu déconnexion #}
-            {% if app.user %}
+{# Menu déconnexion #}
+            
+            {# {% if app.user %}
                 <ul class="navbar-nav mr-4">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bonjour {{ app.user.username }}</a>
@@ -79,14 +93,61 @@
                     </li>
                 </ul>
             {% endif %}
+        </nav> #}
+
+
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4" id="otherNav">
+            <div class="container">
+                <a class="navbar-brand" href="{{path('home')}}"> 
+                    <span class="fa-stack fa"><i class="fa fa-circle fa-stack-2x text-warning"></i><i class="fa fa-book fa-stack-1x fa-inverse"></i></span>
+                </a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">Menu<i class="fa fa-bars ml-1"></i></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    {# <ul class="navbar-nav text-uppercase mr-auto">
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#services">Services</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#portfolio">Nouveautés</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#actu">Actu</a></li>
+                    </ul> #}
+
+                    <ul class="navbar-nav text-uppercase ml-auto">
+                        <li class="nav-item"><a class="nav-link {% if active_menu is defined and active_menu == 'activer' %}active{% endif %}" href="{{ path('catalog_index') }}">Catalogue</a></li>
+                    {% if not is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item"><a class="nav-link" href="{{ path('contact_index') }}">Contact</a></li>
+                    {% endif %}
+                    {% if not is_granted('ROLE_USER') %}
+                        <li class="nav-item"><a class="nav-link" href="{{ path('app_login') }}">Adhérent</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ path('login_admin') }}">Professionnel</a></li>
+                    {% endif %}
+
+                    {% if app.user %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item"><a class="nav-link" href="{{ path('gestion_admin')}}">Gestion e-bookshop</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ path('logout') }}"><i class="fa fa-unlock" aria-hidden="true"></i> déconnexion</a></li>
+                    {% elseif not is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item"><a class="nav-link" href="{{ path('panier_index') }}"><i class="fa fa-shopping-basket" aria-hidden="true"></i> votre panier</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ path('app_logout') }}"><i class="fa fa-unlock" aria-hidden="true"></i> déconnexion</a></li>
+                        {% endif %}          
+                    {% endif %}
+                    </ul>
+                </div>
+            </div>
         </nav>
+
+       
 
         {% block body %}{% endblock %}
 
-        {# Js et Jquery Bootstrap #}
+{# Js et Jquery Bootstrap #}
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+{# front js #}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+        {# <script src="assets/mail/jqBootstrapValidation.js"></script> #}
+        {# <script src="assets/mail/contact_me.js"></script> #}
+        <script src="assets/js/scripts.js"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>
