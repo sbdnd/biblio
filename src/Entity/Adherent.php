@@ -54,13 +54,13 @@ class Adherent implements UserInterface
     private $email;
 
     /**
-     * @ORM\OneToMany(targetEntity=Emprunter::class, mappedBy="adherent", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Reserver::class, mappedBy="adherent", orphanRemoval=true)
      */
-    private $emprunts;
+    private $reservations;
 
     public function __construct()
     {
-        $this->emprunts = new ArrayCollection();
+        $this->reservations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -173,30 +173,30 @@ class Adherent implements UserInterface
     }
 
     /**
-     * @return Collection|Emprunter[]
+     * @return Collection|Reserver[]
      */
     public function getEmprunts(): Collection
     {
         return $this->emprunts;
     }
 
-    public function addEmprunt(Emprunter $emprunt): self
+    public function addEmprunt(Reserver $reservation): self
     {
-        if (!$this->emprunts->contains($emprunt)) {
-            $this->emprunts[] = $emprunt;
-            $emprunt->setAdherent($this);
+        if (!$this->reservations->contains($reservation)) {
+            $this->emprunts[] = $reservation;
+            $reservation->setAdherent($this);
         }
 
         return $this;
     }
 
-    public function removeEmprunt(Emprunter $emprunt): self
+    public function removeEmprunt(Reserver $reservation): self
     {
-        if ($this->emprunts->contains($emprunt)) {
-            $this->emprunts->removeElement($emprunt);
+        if ($this->reservations->contains($reservation)) {
+            $this->reservations->removeElement($reservation);
             // set the owning side to null (unless already changed)
-            if ($emprunt->getAdherent() === $this) {
-                $emprunt->setAdherent(null);
+            if ($reservation->getAdherent() === $this) {
+                $reservation->setAdherent(null);
             }
         }
 

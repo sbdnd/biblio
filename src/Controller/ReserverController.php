@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Emprunter;
 use Doctrine\DBAL\DBALException;
 use App\Service\Panier\PanierService;
-use App\Repository\EmprunterRepository;
 use App\Repository\ExemplaireRepository;
 use App\Service\Reserver\ReserverService;
 use App\Service\Emprunter\EmprunterService;
@@ -24,20 +23,22 @@ class ReserverController extends AbstractController
      * @param PanierService $panier
      * @return void
      * 
-     * @Route("/panier/{id}", name="emprunter_reserve")
+     * @Route("/panier/{id}", name="reserver_reserve")
      */
-    public function reserve($id, ReserverService $exemplaires, PanierService $panier)
-    {
-        $listExemplaires = $exemplaires->available($id);
+    public function reserve($id, ReserverService $serviceReservation, PanierService $panier)
+    {   
+        
+        $exemplairesDispo = $serviceReservation->available($id);
+
         try
         {
-            if(count($listExemplaires) == 0)
+            if(count($exemplairesDispo) == 0)
             {
                 $this->addFlash('danger', 'Livre indisponible');
             }
             else
             {
-                $exemplaires->reserve($id);
+                $serviceReservation->reserve($id);
                 $panier->remove($id);
                 $this->addFlash('success', 'Livre réservé avec succès'); 
             }

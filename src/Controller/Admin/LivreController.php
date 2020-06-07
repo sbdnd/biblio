@@ -45,7 +45,7 @@ class LivreController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($livre);
             $entityManager->flush();
-            $this->addFlash('success', 'Livre enregistré avec succès');
+            $this->addFlash('success', 'Livre ajouté avec succès');
             return $this->redirectToRoute('admin_livre_index');
         }
 

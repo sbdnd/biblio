@@ -6,21 +6,21 @@ use App\Repository\EmprunterRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=EmprunterRepository::class)
+ * @ORM\Entity(repositoryClass=ReserverRepository::class)
  */
-class Emprunter
+class Reserver
 {
 
     /**
      * @ORM\Id()
-     * @ORM\ManyToOne(targetEntity=Exemplaire::class, inversedBy="emprunts")
+     * @ORM\ManyToOne(targetEntity=Exemplaire::class, inversedBy="reservations")
      * @ORM\JoinColumn(nullable=false)
      */
     private $exemplaire;
 
     /**
      * @ORM\Id()
-     * @ORM\ManyToOne(targetEntity=Adherent::class, inversedBy="emprunts")
+     * @ORM\ManyToOne(targetEntity=Adherent::class, inversedBy="reservations")
      * @ORM\JoinColumn(nullable=false)
      */
     private $adherent;
@@ -31,15 +31,6 @@ class Emprunter
      */
     private $datePret;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $dateRetourPrevue;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $dateRetourReelle;
 
     public function getExemplaire(): ?Exemplaire
     {
@@ -77,27 +68,4 @@ class Emprunter
         return $this;
     }
 
-    public function getDateRetourPrevue(): ?\DateTimeInterface
-    {
-        return $this->dateRetourPrevue;
-    }
-
-    public function setDateRetourPrevue(\DateTimeInterface $dateRetourPrevue): self
-    {
-        $this->dateRetourPrevue = $dateRetourPrevue;
-
-        return $this;
-    }
-
-    public function getDateRetourReelle(): ?\DateTimeInterface
-    {
-        return $this->dateRetourReelle;
-    }
-
-    public function setDateRetourReelle(?\DateTimeInterface $dateRetourReelle): self
-    {
-        $this->dateRetourReelle = $dateRetourReelle;
-
-        return $this;
-    }
 }

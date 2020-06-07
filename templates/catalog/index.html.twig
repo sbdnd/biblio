@@ -29,6 +29,17 @@
                 </div>
             </div>
         {% endfor %}
+        {# notification en cas de livre ajouté au panier #}
+        {% for notification in app.flashes('addPanier') %}
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="alert alert-dismissible alert-success">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        {{ notification }}
+                    </div
+                </div>
+            </div>
+        {% endfor %}
     </div>
 
     <div class="bg-warning text-center text-white mb-4">
@@ -51,18 +62,23 @@
                         <div class="col-sm-4">
                             <div class="card mb-2">
                                 {% if livre.imageName %}
-                                    <img style="height: auto; width: 100%; display: block;" src="{{ vich_uploader_asset(livre, 'imageFile') | imagine_filter('thumb') }}" alt="image livre">
+                                    <a href="{{ path('catalog_show', {id: livre.id, slug: livre.slug} ) }}">
+                                        <img style="height: auto; width: 100%; display: block;" src="{{ vich_uploader_asset(livre, 'imageFile') | imagine_filter('thumb') }}" alt="image livre">
+                                    </a>
                                 {% else %}
-                                    <img style="height: auto; width: 100%; display: block;" src="{{ '/images/livres/livre.jpg' | imagine_filter('thumb') }}" alt="image livre">
+                                    <a href="{{ path('catalog_show', {id: livre.id, slug: livre.slug} ) }}">
+                                        <img style="height: auto; width: 100%; display: block;" src="{{ '/images/livres/livre.jpg' | imagine_filter('thumb') }}" alt="image livre">
+                                    </a>
                                 {% endif %}
                             </div>
                             <div class="text-center">
                             {% if is_granted("ROLE_USER") %}
-                                <a href="{{ path('panier_add', {id: livre.id}) }}" class="btn btn-info btn-sm">Ajouter au panier <i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
+                                <a href="{{ path('panier_add', {id: livre.id}) }}" class="btn btn-dark btn-sm">Ajouter au panier <i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
+                                <a href="{{ path('reserver_reserve', {id: livre.id}) }}" type="button" class="btn btn-warning btn-sm">Réserver <i class="fa fa-ticket" aria-hidden="true"></i></a>
                             {% else %}
                                 <a href="{{ path('app_login') }}" class="btn btn-dark btn-sm">Ajouter au panier</a>
+                                <a href="{{ path('app_login') }}" type="button" class="btn btn-warning btn-sm">Réserver <i class="fa fa-ticket" aria-hidden="true"></i></a>
                             {% endif %}
-                                <a href="{{ path('catalog_show', {id: livre.id, slug: livre.slug} ) }}" type="button" class="btn btn-warning btn-sm">Plus de détails</a>
                             </div>
                         </div>
                         <div class="col-sm-8">
@@ -70,7 +86,7 @@
                                 <tbody>
                                     <tr class="table-light">
                                         <th scope="row">Titre</th>
-                                        <td class="text-primary">{{ livre.titre }}</td>
+                                        <td>{{ livre.titre }}</td>
                                     </tr>
                                     <tr class="table-light">
                                         <th scope="row">Auteur</th>

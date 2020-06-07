@@ -34,19 +34,19 @@
                 </div>
             </div>
             <div class="row text-center">
-                <div class="col-md-4">
-                     
-                        <span class="fa-stack fa-4x"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-book fa-stack-1x fa-inverse"></i></span>
-                 
+                <div class="col-md-6">
+                    <a href="{{ path('admin_exemplaire_index') }}">
+                        <span class="fa-stack fa-4x"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-thumbs-up fa-stack-1x fa-inverse"></i></span>
+                    </a>
                     <h4 class="my-3">Gérer les exemplaires</h4>
-                    <p class="text-muted">Ajouter - modifier - supprimer des exemplaires de livres du catalogue.</p>
+                    <p class="text-muted">Ajouter - modifier - supprimer des exemplaires de livres du catalogue.<br>Indiquer si un exemplaire est disponible ou non à la réservation.</p>
                 </div>
-                <div class="col-md-4">
+                {# <div class="col-md-4">
                     <span class="fa-stack fa-4x"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-thumbs-up fa-stack-1x fa-inverse"></i></span>
                     <h4 class="my-3">Gérer les disponibilités</h4>
                     <p class="text-muted">Indiquer si un exemplaire est disponible ou non à la réservation.</p>
-                </div>
-                <div class="col-md-4">
+                </div> #}
+                <div class="col-md-6">
                     <a href="{{ path('admin_genre_index') }}">
                         <span class="fa-stack fa-4x"><i class="fa fa-circle fa-stack-2x text-primary"></i><i class="fa fa-tags fa-stack-1x fa-inverse"></i></span>
                     </a>

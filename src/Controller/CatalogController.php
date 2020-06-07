@@ -47,7 +47,6 @@ class CatalogController extends AbstractController
         $data = new SearchData();
         $form = $this->createForm(SearchType::class, $data);
         $form->handleRequest($request);
-        //dd($data);
         
             $livres = $paginator->paginate(
                 $this->repo->findSearch($data),

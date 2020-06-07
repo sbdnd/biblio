@@ -35,7 +35,8 @@ class PanierController extends AbstractController
     public function add($id, PanierService $panierService)
     {
         $panierService->add($id);
-        return $this->redirectToRoute('panier_index');
+        $this->addFlash('addPanier', 'Livre ajouté au panier !'); 
+        return $this->redirectToRoute('catalog_index');
     }
 
     /**

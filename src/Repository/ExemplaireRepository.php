@@ -32,7 +32,8 @@ class ExemplaireRepository extends ServiceEntityRepository
     }
 
     /**
-     * Récupérer un exemplaire en fonction de l'id d'un livre
+     * Récupère les exemplaires d'un livre en fonction de l'id de ce livre
+     * Retourne les objets exemplaires sous forme d'un tableau
      *
      * @param number $id
      * @return Exemplaire[]
@@ -48,6 +49,26 @@ class ExemplaireRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    /**
+     * Récupère les exemplaires dispo d'un livre en fonction de l'id de ce livre
+     * Retourne un tableau d'objet exemplaire
+     *
+     * @return Exemplaire[]
+     */
+    public function findExemplaireDispo($id): array
+    {
+        return $this->createQueryBuilder('e')
+        ->select('e', 'l' )
+        ->join('e.livre','l')
+        ->andWhere('l.id = :livreId')
+        ->setParameter('livreId', $id)
+        ->andWhere('e.dispo = true')
+        ->getQuery()
+        ->getResult()
+    ;
+    }
+
 
     // /**
     //  * @return Exemplaire[] Returns an array of Exemplaire objects

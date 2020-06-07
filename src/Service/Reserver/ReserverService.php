@@ -1,16 +1,17 @@
 <?php
 namespace App\Service\Reserver;
 
+use App\Entity\Reserver;
 use App\Entity\Emprunter;
 use App\Entity\Exemplaire;
-use App\Repository\EmprunterRepository;
+use App\Repository\ReserverRepository;
 use App\Repository\ExemplaireRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class ReserverService
 {
-    private $emprunterRepository;
+    private $reserverRepository;
 
     private $exemplaireRepository;
 
@@ -19,9 +20,9 @@ class ReserverService
     private $em;
 
 
-    public function __construct(EntityManagerInterface $em, EmprunterRepository $emprunterRepository, ExemplaireRepository $exemplaireRepository, TokenStorageInterface $tokenStorage)
+    public function __construct(EntityManagerInterface $em, ReserverRepository $reserverRepository, ExemplaireRepository $exemplaireRepository, TokenStorageInterface $tokenStorage)
     {
-        $this->emprunterRepository = $emprunterRepository;
+        $this->reserverRepository = $reserverRepository;
         $this->exemplaireRepository = $exemplaireRepository;
         $this->user = $tokenStorage->getToken()->getUser();
         $this->em = $em;
@@ -35,32 +36,9 @@ class ReserverService
      */
     public function available(int $id): array
     {
-        //Tableau d'id des exemplaires du livre sélectionné
-        $listExemplaireByLivre = $this->exemplaireRepository->findExemplaireByLivreId($id); //récupère les id des exemplaires d'un livre
-        
-        $listIdExemplaire = [];
-        foreach($listExemplaireByLivre as $exemplaire)
-        {
-            $listIdExemplaire[] = $exemplaire->getId(); //tableau des exemplaires du livre sélectionné triés par leur ID
-        }
+        $exemplairesDispo = $this->exemplaireRepository->findExemplaireDispo($id);
 
-        //Tableau d'id des exemplaires en cours de réservation
-        $listEmprunts = $this->emprunterRepository->findAllEmprunt();//récupère tous les emprunts en cours
-        $listIdExemplaireEmpruntes = [];
-        foreach($listEmprunts as $emprunt)
-        {
-            $listIdExemplaireEmpruntes[] = $emprunt->getExemplaire()->getId(); //tableau des exemplaires empruntés triés par leur ID
-        }
-
-        //Liste des exemplaires disponibles 
-        $listExemplaireId = array_diff($listIdExemplaire,  $listIdExemplaireEmpruntes);
-        $listExemplaire = [];
-        foreach($listExemplaireId as $idExemplaire)
-        {
-            $listExemplaire[] = $this->exemplaireRepository->find($idExemplaire);
-        }
-
-        return $listExemplaire;
+        return $exemplairesDispo;
     }
 
     /**
@@ -71,22 +49,20 @@ class ReserverService
      */
     public function reserve(int $id)
     {
-        $listExemplaire = $this->available($id);
-       
-        $datePret = new \DateTime('now');
-        $date = (new \DateTime('now'))->format('Y-m-d'); //datePret au format string
-        $adherent = $this->user;
-        foreach($listExemplaire as $exemplaire)
+        $exemplairesDispo = $this->available($id);
+
+        $date = (new \DateTime('now'))->format('Y-m-d'); //date au format string
+        $adherent = $this->user; //recupère l'adherent courant
+        foreach($exemplairesDispo as $exemplaire)
         {
-            $emprunt = new Emprunter();
-            $emprunt
+            $reservation = new Reserver();
+            $reservation
                 ->setAdherent($adherent)
                 ->setExemplaire($exemplaire)
                 ->setDatePret($date)
-                ->setDateRetourPrevue($datePret->add(new \DateInterval('P15D')))
             ;
             //$em = $this->getDoctrine()->getManager();
-            $this->em->persist($emprunt);
+            $this->em->persist($reservation);
             break;
         }
         $this->em->flush();

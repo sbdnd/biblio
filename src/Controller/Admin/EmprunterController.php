@@ -2,9 +2,9 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Emprunter;
+use App\Entity\Reserver;
 use App\Form\EmprunterType;
-use App\Repository\EmprunterRepository;
+use App\Repository\ReserverRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,10 +19,10 @@ class EmprunterController extends AbstractController
     /**
      * @Route("/", name="admin_emprunter_index", methods={"GET"})
      */
-    public function index(EmprunterRepository $emprunterRepository, PaginatorInterface $paginator, Request $request): Response
+    public function index(ReserverRepository $reserverRepository, PaginatorInterface $paginator, Request $request): Response
     {
         $emprunter = $paginator->paginate(
-            $emprunterRepository->findAll(),
+            $reserverRepository->findAll(),
             $request->query->getInt('page', 1),
             5
         );
@@ -35,7 +35,7 @@ class EmprunterController extends AbstractController
     /**
      * @Route("/{exemplaire}/{adherent}/{date}/edit", name="admin_emprunter_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, $exemplaire, $adherent, string $date, EmprunterRepository $emprunterRepository): Response
+    public function edit(Request $request, $exemplaire, $adherent, string $date, ReserverRepository $emprunterRepository): Response
     {
         $exemplaire = intval($exemplaire); //Convertir l'id exemplaire sous forme de int
         $adherent = intval($adherent); //Convertir l'adherent exemplaire sous forme de int
@@ -60,11 +60,11 @@ class EmprunterController extends AbstractController
     /**
      * @Route("/{exemplaire}", name="admin_emprunter_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Emprunter $emprunter): Response
+    public function delete(Request $request, Reserver $reserver): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$emprunter->getExemplaire(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$reserver->getExemplaire(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($emprunter);
+            $entityManager->remove($reserver);
             $entityManager->flush();
         }
 

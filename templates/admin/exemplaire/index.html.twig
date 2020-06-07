@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'tous les exemplaires' %}
+
+{% block body %}
+    <div class="container">
+        <div class=" bg-warning text-center text-white">
+            <h3>Gérer les exemplaires</h3>
+        </div>
+
+        <a class="btn btn-primary mb-2" href="{{ path('admin_exemplaire_new') }}">Ajouter un exemplaire</a>
+        {# notification en cas de modification, suppression ou création #}
+        {% for notification in app.flashes('success') %}
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="alert alert-dismissible alert-success">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        {{ notification }}
+                    </div
+                </div>
+            </div>
+        {% endfor %}
+        {% for notification in app.flashes('danger') %}
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="alert alert-dismissible alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        {{ notification }}
+                    </div
+                </div>
+            </div>
+        {% endfor %}
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Code exemplaire</th>
+                    <th>Titre du livre</th>
+                    {# <th>DateAcquisition</th> #}
+                    <th>Dispo</th>
+                    <th colspan="2" class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for exemplaire in exemplaires %}
+                <tr>
+                    <td>{{ exemplaire.id }}</td>
+                    <td>{{ exemplaire.codeExemplaire }}</td>
+                    <td><a href="{{ path('admin_livre_show', {id: exemplaire.livre.id }) }}">{{ exemplaire.livre.titre }}</a></td>
+                    {# <td>{{ exemplaire.dateAcquisition ? exemplaire.dateAcquisition|date('Y-m-d H:i:s') : '' }}</td> #}
+                    <td>{{ exemplaire.dispo ? 'Disponible' : 'Indisponible' }}</td>
+                    <td>
+                        <a class="btn btn-primary" href="{{ path('admin_exemplaire_show', {'id': exemplaire.id}) }}">voir</a>
+                        <a class="btn btn-warning" href="{{ path('admin_exemplaire_edit', {'id': exemplaire.id}) }}">modifier</a>
+                    </td>
+                    <td>{{ include('admin/exemplaire/_delete_form.html.twig') }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">Aucun exemplaire trouvé</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {# rendu de la pagination #}
+        <div class="pagination">
+            {{ knp_pagination_render(exemplaires) }}
+        </div>
+
+    </div>
+    
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'modifier exemplaire' %}
+
+{% block body %}
+
+<div class="container">
+    <div class=" bg-warning text-center text-white">
+        <h3>Modifier l'exemplaire</h3>
+    </div>
+    {{ include('admin/exemplaire/_form.html.twig', {'button_label': 'sauvegarder'}) }}
+</div>
+
+{% endblock %}

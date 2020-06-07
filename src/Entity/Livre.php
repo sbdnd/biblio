@@ -27,6 +27,7 @@ class Livre
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
      */
     private $titre;
 
@@ -295,6 +296,4 @@ class Livre
         return $this;
     }
 
-    
-    
 }

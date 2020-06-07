@@ -1,0 +1,27 @@
+{{ form_start(form) }}
+
+    <div class="row">
+        <div class="col-sm-6">{{ form_row(form.codeExemplaire, { 'label': 'Code exemplaire' }) }}</div>
+        <div class="col-sm-6">{{ form_row(form.dateAcquisition, { 'label': "Date d'acquisition de l'exemplaire" }) }}</div>
+        <div class="col-sm-3">{{ form_row(form.dispo, { 'label': 'Disponible' }) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">{{ form_row(form.livre.titre, { 'label': 'Titre du livre' }) }}</div>
+        <div class="col-sm-6">{{ form_row(form.livre.resume, { 'label': 'Résumé' }) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">{{ form_row(form.livre.annee, { 'label': 'Parution' }) }}</div>
+        <div class="col-sm-6">{{ form_row(form.livre.isbn) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">{{ form_row(form.livre.auteurs) }}</div>
+        <div class="col-sm-6">{{ form_row(form.livre.editeur) }}</div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">{{ form_row(form.livre.genre) }}</div>
+        <div class="col-sm-6">{{ form_row(form.livre.imageFile, { 'label': 'Insérer une image' }) }}</div>
+    </div>
+
+    {{ form_widget(form) }}
+    <button class="btn btn-primary mb-4">{{ button_label|default('sauvegarder') }}</button>
+{{ form_end(form) }}

@@ -6,6 +6,7 @@ use App\Repository\ExemplaireRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ExemplaireRepository::class)
@@ -21,6 +22,7 @@ class Exemplaire
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
      */
     private $codeExemplaire;
 
@@ -30,19 +32,26 @@ class Exemplaire
     private $dateAcquisition;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Livre::class, inversedBy="exemplaires")
+     * @ORM\ManyToOne(targetEntity=Livre::class, inversedBy="exemplaires", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\Valid()
+     * 
      */
     private $livre;
 
     /**
-     * @ORM\OneToMany(targetEntity=Emprunter::class, mappedBy="exemplaire", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Reserver::class, mappedBy="exemplaire", orphanRemoval=true)
      */
-    private $emprunts;
+    private $reservations;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $dispo;
 
     public function __construct()
     {
-        $this->emprunts = new ArrayCollection();
+        $this->reservations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -87,30 +96,30 @@ class Exemplaire
     }
 
     /**
-     * @return Collection|Emprunter[]
+     * @return Collection|Reserver[]
      */
-    public function getEmprunts(): Collection
+    public function getReservations(): Collection
     {
-        return $this->emprunts;
+        return $this->reservations;
     }
 
-    public function addEmprunt(Emprunter $emprunt): self
+    public function addEmprunt(Reserver $reservation): self
     {
-        if (!$this->emprunts->contains($emprunt)) {
-            $this->emprunts[] = $emprunt;
-            $emprunt->setExemplaire($this);
+        if (!$this->emprunts->contains($reservation)) {
+            $this->emprunts[] = $reservation;
+            $reservation->setExemplaire($this);
         }
 
         return $this;
     }
 
-    public function removeEmprunt(Emprunter $emprunt): self
+    public function removeEmprunt(Reserver $reservation): self
     {
-        if ($this->emprunts->contains($emprunt)) {
-            $this->emprunts->removeElement($emprunt);
+        if ($this->reservations->contains($reservation)) {
+            $this->reservations->removeElement($reservation);
             // set the owning side to null (unless already changed)
-            if ($emprunt->getExemplaire() === $this) {
-                $emprunt->setExemplaire(null);
+            if ($reservation->getExemplaire() === $this) {
+                $reservation->setExemplaire(null);
             }
         }
 
@@ -120,5 +129,17 @@ class Exemplaire
     public function __toString()
     {
         return $this->getCodeExemplaire();
+    }
+
+    public function getDispo(): ?bool
+    {
+        return $this->dispo;
+    }
+
+    public function setDispo(bool $dispo): self
+    {
+        $this->dispo = $dispo;
+
+        return $this;
     }
 }

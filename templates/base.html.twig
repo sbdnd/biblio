@@ -15,86 +15,6 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-    
-{# NavBar Bootstrap #}
-
-        {# <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
-            <a class="navbar-brand" href="{{path('home')}}">e-BookShop</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-
-                    <li class="nav-item">
-                        <a class="nav-link {% if active_menu is defined and active_menu == 'activer' %}active{% endif %}" href="{{ path('catalog_index') }}">Catalogue</a>
-                    </li> #}
-
-{# inactif pour les admin #}
-
-                {# {% if not is_granted('ROLE_ADMIN') %}
-                    <li class="nav-item">
-                        <a class="nav-link {% if active_menu is defined and active_menu == 'active' %}active{% endif %}" href="{{ path('contact_index') }}">Nous contacter</a>
-                    </li>
-                {% endif %} #}
-
-{# menu de gestion pour les admin #}
-
-                {# {% if is_granted('ROLE_ADMIN') %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Gestion
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ path('admin_livre_index') }}">Gérer les livres</a>
-                        <a class="dropdown-item" href="{{ path('admin_emprunter_index') }}">Gérer les retours</a>
-                        <a class="dropdown-item" href="{{ path('admin_auteur_index') }}">Gérer les auteurs</a>
-                        <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ path('admin_editeur_index') }}">Gérer les éditeurs</a>
-                            <a class="dropdown-item" href="{{ path('admin_genre_index') }}">Gérer les genres</a>
-                        </div>
-                    </li>
-                {% endif %}
-                    
-                </ul>
-            </div> #}
-
-{# Menu connexion #}
-
-            {# {% if app.user == false %}
-                <ul class="navbar-nav mr-4">
-                    <li class="nav-item dropdown ">
-                        <a class="nav-link dropdown-toggle {% if active_login is defined and active_login == 'actived' %} active {% endif %}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-lock" aria-hidden="true"></i> Connexion</a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ path('app_login') }}">Adhérent</a>
-                            <a class="dropdown-item" href="{{ path('login_admin') }}">Professionnel</a>
-                        <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ path('app_register') }}">S'inscrire</a>
-                        </div>
-                    </li>
-                </ul>
-            {% endif %} #}
-
-{# Menu déconnexion #}
-            
-            {# {% if app.user %}
-                <ul class="navbar-nav mr-4">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bonjour {{ app.user.username }}</a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            {% if is_granted('ROLE_ADMIN') %}
-                                <a class="dropdown-item" href="{{ path('logout') }}"><i class="fa fa-unlock" aria-hidden="true"></i> déconnexion</a> 
-                            {% elseif is_granted('ROLE_USER') %}
-                                <a class="dropdown-item" href="{{ path('panier_index') }}"><i class="fa fa-shopping-basket" aria-hidden="true"></i> votre panier</a>
-                                <a class="dropdown-item" href="{{ path('app_logout') }}"><i class="fa fa-unlock" aria-hidden="true"></i> déconnexion</a>
-                            {% endif %}
-                        </div> 
-                    </li>
-                </ul>
-            {% endif %}
-        </nav> #}
-
 
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4" id="otherNav">
             <div class="container">
@@ -116,7 +36,7 @@
                     {% endif %}
                     {% if not is_granted('ROLE_USER') %}
                         <li class="nav-item"><a class="nav-link" href="{{ path('app_login') }}">Adhérent</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ path('login_admin') }}">Professionnel</a></li>
+                        {# <li class="nav-item"><a class="nav-link" href="{{ path('login_admin') }}">Professionnel</a></li> #}
                     {% endif %}
 
                     {% if app.user %}
@@ -135,7 +55,20 @@
 
        
 
-        {% block body %}{% endblock %}
+        {% block body %} {% endblock %}
+
+        {# Footer #}
+        <footer class="footer py-4 bg-light mt-4">
+            <div class="container ">
+                <div class="row align-items-center">
+                    <div class="col-lg-4 text-lg-left">Copyright 2020 © e-bookshop </div>
+                    <div class="col-lg-4 my-3 my-lg-0">
+                        <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fa fa-twitter"></i></a><a class="btn btn-dark btn-social mx-2" href="#!"><i class="fa fa-facebook-f"></i></a><a class="btn btn-dark btn-social mx-2" href="#!"><i class="fa fa-linkedin"></i></a>
+                    </div>
+                    <div class="col-lg-4 text-lg-right"><a class="mr-3" href="#!">Privacy Policy</a><a href="#!">Terms of Use</a></div>
+                </div>
+            </div>
+        </footer>
 
 {# Js et Jquery Bootstrap #}
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
