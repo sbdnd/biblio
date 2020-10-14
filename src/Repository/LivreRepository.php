@@ -64,6 +64,10 @@ class LivreRepository extends ServiceEntityRepository
     public function findLatest() : array
     {
         return $this->createQueryBuilder('l')
+            ->select('l', 'a' )
+            ->join('l.auteurs','a')
+            ->join('l.genre','g')
+            ->join('l.editeur','e')
             ->setMaxResults(3)
             ->orderBy('l.id', 'DESC')
             ->getQuery()

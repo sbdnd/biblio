@@ -77,17 +77,17 @@
                     <div class="col-md-4">
                         <span class="fa-stack fa-4x"><i class="fa fa-circle fa-stack-2x text-warning"></i><i class="fa fa-shopping-cart fa-stack-1x fa-inverse"></i></span>
                         <h4 class="my-3">E-Réservation</h4>
-                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+                        <p class="text-muted">Connectez-vous à votre compte et réservez vos livres préférés sans vous déplacer.</p>
                     </div>
                     <div class="col-md-4">
                         <span class="fa-stack fa-4x"><i class="fa fa-circle fa-stack-2x text-warning"></i><i class="fa fa-laptop fa-stack-1x fa-inverse"></i></span>
                         <h4 class="my-3">Espace adhérent</h4>
-                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+                        <p class="text-muted">Inscrivez-vous et profitez des avantages de votre espace personnel.</p>
                     </div>
                     <div class="col-md-4">
                         <span class="fa-stack fa-4x"><i class="fa fa-circle fa-stack-2x text-warning"></i><i class="fa fa-info fa-stack-1x fa-inverse"></i></span>
                         <h4 class="my-3">Actualité</h4>
-                        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+                        <p class="text-muted">Restez informé de toute l'actualité culturelle et des évènements à venir !</p>
                     </div>
                 </div>
             </div>
@@ -148,12 +148,25 @@
                                                         <li>Editeur: {{ livre.editeur }}</li>
                                                         <li>Categorie: {{ livre.genre }}</li>
                                                     </ul>
-                                                    {% if is_granted("ROLE_USER") %}
-                                                        <a href="{{ path('panier_add', {id: livre.id}) }}" class="btn btn-dark btn-sm">Ajouter au panier <i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
-                                                        <a href="{{ path('reserver_reserve', {id: livre.id}) }}" type="button" class="btn btn-warning btn-sm">Réserver <i class="fa fa-ticket" aria-hidden="true"></i></a>
+
+                                                    {% if exemplaireDispo[livre.id] == 0 %}
+                                                        <button class="btn btn-danger btn-sm disabled">Exemplaire indisponible</button>
                                                     {% else %}
-                                                        <a href="{{ path('app_login') }}" class="btn btn-dark btn-sm">Ajouter au panier</a>
-                                                        <a href="{{ path('app_login') }}" type="button" class="btn btn-warning btn-sm">Réserver <i class="fa fa-ticket" aria-hidden="true"></i></a>
+                                                        {% if is_granted("ROLE_USER") %}
+                                                            {# Bibliothécaire #}
+                                                            {% if is_granted("ROLE_ADMIN")  %}
+                                                                <a href="{{ path('panier_add', {id: livre.id}) }}" class="btn btn-dark btn-sm disabled">Ajouter au panier <i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
+                                                                <a href="{{ path('reserver_reserve', {id: livre.id}) }}" type="button" class="btn btn-warning btn-sm disabled">Réserver <i class="fa fa-ticket" aria-hidden="true"></i></a>
+                                                            {# Adhérent #}
+                                                            {% else %}
+                                                                <a href="{{ path('panier_add', {id: livre.id}) }}" class="btn btn-dark btn-sm">Ajouter au panier <i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
+                                                                <a href="{{ path('reserver_reserve', {id: livre.id}) }}" type="button" class="btn btn-warning btn-sm">Réserver <i class="fa fa-ticket" aria-hidden="true"></i></a>
+                                                            {% endif %}
+                                                        {# Visiteur #}
+                                                        {% else %}
+                                                            <a href="{{ path('app_login') }}" class="btn btn-dark btn-sm">Ajouter au panier</a>
+                                                            <a href="{{ path('app_login') }}" type="button" class="btn btn-warning btn-sm">Réserver <i class="fa fa-ticket" aria-hidden="true"></i></a>
+                                                        {% endif %}
                                                     {% endif %}
                                                 </div>
                                             </div>

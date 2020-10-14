@@ -14,11 +14,17 @@
         <div class="col-sm-6">{{ form_row(form.livre.isbn) }}</div>
     </div>
     <div class="row">
-        <div class="col-sm-6">{{ form_row(form.livre.auteurs) }}</div>
-        <div class="col-sm-6">{{ form_row(form.livre.editeur) }}</div>
+        <div class="col-sm-6">{{ form_row(form.livre.auteurs) }}
+        <a href="{{ path('admin_auteur_new') }}" type="button" class="btn btn-outline-primary btn-sm mb-4">L'auteur n'est pas encore dans la liste !!</a>
+        </div>
+        <div class="col-sm-6">{{ form_row(form.livre.editeur) }}
+        <a href="{{ path('admin_editeur_new') }}" type="button" class="btn btn-outline-primary btn-sm mb-4">L'éditeur n'est pas encore dans la liste !!</a>
+        </div>
     </div>
     <div class="row">
-        <div class="col-sm-6">{{ form_row(form.livre.genre) }}</div>
+        <div class="col-sm-6">{{ form_row(form.livre.genre) }}
+        <a href="{{ path('admin_genre_new') }}" type="button" class="btn btn-outline-primary btn-sm mb-4">Le genre n'est pas encore dans la liste !!</a>
+        </div>
         <div class="col-sm-6">{{ form_row(form.livre.imageFile, { 'label': 'Insérer une image' }) }}</div>
     </div>
 

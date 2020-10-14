@@ -8,6 +8,7 @@ use App\Repository\EmprunterRepository;
 use App\Repository\ExemplaireRepository;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PanierController extends AbstractController
@@ -15,7 +16,6 @@ class PanierController extends AbstractController
     /**
      * Récupère le panier des livres
      * Envoie les données à la vue
-     * 
      * @Route("/panier", name="panier_index")
      */
     public function index(PanierService $panierService)

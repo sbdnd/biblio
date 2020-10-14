@@ -2,14 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\ExemplaireRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ExemplaireRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=ExemplaireRepository::class)
+ * @UniqueEntity("codeExemplaire")
  */
 class Exemplaire
 {
@@ -22,7 +24,7 @@ class Exemplaire
 
     /**
      * @ORM\Column(type="string", length=255)
-     * 
+     * @Assert\Regex("/^\d{8}$/",  message="8 chiffres requis")
      */
     private $codeExemplaire;
 
@@ -32,7 +34,7 @@ class Exemplaire
     private $dateAcquisition;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Livre::class, inversedBy="exemplaires", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity=Livre::class, inversedBy="exemplaires", cascade={"persist"}, fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\Valid()
      * 

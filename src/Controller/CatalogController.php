@@ -41,7 +41,7 @@ class CatalogController extends AbstractController
      * @Route("/catalog", name="catalog_index")
      * @return Response
      */
-    public function index(PaginatorInterface $paginator, Request $request): Response
+    public function index(PaginatorInterface $paginator, Request $request, ExemplaireRepository $er): Response
     {
 
         $data = new SearchData();
@@ -53,9 +53,18 @@ class CatalogController extends AbstractController
                 $request->query->getInt('page', 1),
                 4
             );
+
+        $exemplaireDispo =[];
+        foreach($livres as $livre)
+        {
+            $exemplaireDispo[$livre->getId()] = $er->findTotalExemplaireDispo($livre->getId());
+        }
+
+        // dd($exemplaireDispo);
             
         return $this->render('catalog/index.html.twig', [
             'livres' => $livres,
+            'exemplaireDispo' => $exemplaireDispo,
             'form' => $form->createView(),
             'active_menu' => 'activer'
         ]);
@@ -70,7 +79,7 @@ class CatalogController extends AbstractController
      * @param Livre $livre
      * @return Response
      */
-    public function show($slug, Livre $livre): Response
+    public function show($slug, Livre $livre, ExemplaireRepository $er): Response
     {
         //Renvoie vers l'URL principale si le slug est modifié dans l'URL
         if($livre->getSlug() !== $slug)
@@ -80,8 +89,14 @@ class CatalogController extends AbstractController
                 'slug' => $livre->getSlug()
             ], 301);
         }
+
+        $exemplaireDispo = 0;
+        
+        $exemplaireDispo = $er->findTotalExemplaireDispo($livre->getId());
+
         return $this->render('catalog/show.html.twig', [
-            'livre' => $livre
+            'livre' => $livre,
+            'exemplaireDispo' => $exemplaireDispo
         ]);
     }
 

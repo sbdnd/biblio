@@ -69,6 +69,19 @@ class ExemplaireRepository extends ServiceEntityRepository
     ;
     }
 
+    public function findTotalExemplaireDispo($id)
+    {
+        return $this->createQueryBuilder('e')
+        ->select('COUNT(e)')
+        ->join('e.livre','l')
+        ->andWhere('l.id = :livreId')
+        ->setParameter('livreId', $id)
+        ->andWhere('e.dispo = true')
+        ->getQuery()
+        ->getSingleScalarResult()
+    ;
+    }
+
 
     // /**
     //  * @return Exemplaire[] Returns an array of Exemplaire objects

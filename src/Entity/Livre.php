@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use Cocur\Slugify\Slugify;
-use Symfony\Component\Validator\Constraints as Assert; 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\LivreRepository;
 use Doctrine\Common\Collections\Collection;
@@ -11,6 +10,8 @@ use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert; 
+
 
 /**
  * @ORM\Entity(repositoryClass=LivreRepository::class)
@@ -27,40 +28,50 @@ class Livre
 
     /**
      * @ORM\Column(type="string", length=255)
-     * 
+     * @Assert\NotBlank
      */
     private $titre;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank
      */
     private $resume;
 
     /**
      * @ORM\Column(type="smallint")
+     * @Assert\NotBlank
      */
     private $annee;
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Assert\NotBlank
+     * @Assert\Isbn(
+     *      type = "isbn13",
+     *      message = "format isbn-13 requis"         
+     * )
      */
     private $isbn;
 
     /**
      * @ORM\ManyToOne(targetEntity=Genre::class, inversedBy="livres")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank
      */
     private $genre;
 
     /**
      * @ORM\ManyToOne(targetEntity=Editeur::class, inversedBy="livres")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank
      */
     private $editeur;
 
     /**
      * @ORM\ManyToMany(targetEntity=Auteur::class, inversedBy="livres", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank
      */
     private $auteurs;
 
